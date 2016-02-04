@@ -24,6 +24,12 @@ class howalarming (
   # Download the source code for HowAlarming from Github and checkout into the
   # installation directory
 
+  if ! defined(Package['git']) {
+    package { 'git':
+      ensure => installed,
+    }
+  }
+
   file { 'howalarming_home':
     ensure => directory,
     name   => $howalarming_dir,
@@ -54,9 +60,10 @@ class howalarming (
   # Beanstalk Messaging Queue. We need to setup a service for howalarming's
   # instance of it.
 
-  package { 'beanstalk_server':
-    ensure => installed,
-    name   => $beanstalk_package
+  if ! defined(Package['beanstalk']) {
+    package { $beanstalk_package:
+      ensure => installed,
+    }
   }
 
   file { 'init_howalarming_beanstalk':
@@ -75,7 +82,8 @@ class howalarming (
     enable  => true,
     require => [
      Exec['howalarming_reload_systemd'],
-     File['init_howalarming_beanstalk']
+     File['init_howalarming_beanstalk'],
+     Package[$beanstalk_package],
     ]
   }
 
