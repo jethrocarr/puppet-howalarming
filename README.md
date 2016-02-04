@@ -31,13 +31,13 @@ To generate config.yaml, self-generate data is merged with data in Hiera to
 generate a complete configuration. This works by defining values in Hiera based
 on the class name (`howalarming`) and the application name, as per the following:
 
-    howalarming:APPLICATION:
+    howalarming::APPLICATION:
       key: value
 
 Here's how the config.example.yaml would look, expressed in Hiera with this
 Puppet module:
 
-    howalarming:envisalinkd:
+    howalarming::envisalinkd:
       host: 192.168.1.1
       port: 4025
       password: durp12
@@ -51,7 +51,7 @@ Puppet module:
         '005': Fire Alarm
         '006': Tamper Switches
 
-    howalarming:alert_email:
+    howalarming::alert_email:
       smtp_host: localhost
       smtp_port: 25
       addr_from: alarm@example.com
@@ -80,6 +80,23 @@ This module requires the following dependencies:
 
 * [puppetlabs/vcsrepo](https://forge.puppetlabs.com/puppetlabs/vcsrepo)
 * [jethrocarr/initfact](https://forge.puppetlabs.com/jethrocarr/initfact)
+
+It is tested/supported on the following platforms:
+
+* CentOS 7
+
+
+Note that this module only supports the following initsystems currently:
+
+* systemd
+
+
+
+## Contributions
+
+All contributions are welcome via Pull Requests including documentation fixes or
+compatibility fixes for supporting other distributions (or other operating
+systems).
 
 
 ## License

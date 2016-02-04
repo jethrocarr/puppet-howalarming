@@ -1,0 +1,14 @@
+# systemd unit file for howalarming-beanstalk
+#
+
+[Unit]
+Description=Beanstalk queue for howalarming
+
+[Service]
+Type=simple
+ExecStart=beanstalkd -l 127.0.0.1 -p <%= @beanstalk_port -%>
+RestartSec=5
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
