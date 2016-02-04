@@ -3,6 +3,7 @@
 # if you wish to override any of the following parameters with Hiera.
 
 class howalarming (
+  $apps              = undef,
   $beanstalk_package = $howalarming::params::beanstalk_package,
   $beanstalk_port    = $howalarming::params::beanstalk_port,
   $beanstalk_binary  = $howalarming::params::beanstalk_binary,
@@ -11,13 +12,17 @@ class howalarming (
   $howalarming_git   = $howalarming::params::howalarming_git,
   $howalarming_user  = $howalarming::params::howalarming_user,
   $howalarming_group = $howalarming::params::howalarming_group,
-) inherits howalarming::params {
+) inherits ::howalarming::params {
 
   # TODO: Currently we only support systemd - Use a recent distribution or
   # contribute a PR for supporting legacy systems.
 
   if ($init_system != 'systemd') {
     fail('howalarming module only support systemd')
+  }
+
+  if ! validate_array($apps) {
+    fail('You must specify which HowAlarming apps you want to run with howalarming::apps as an array without file extensions')
   }
 
 
@@ -44,7 +49,21 @@ class howalarming (
     path     => $howalarming_dir,
     source   => $howalarming_git,
     revision => 'master',
-    require  => File['howalarming_home'],
+    require  => [
+      Package['git'],
+      File['howalarming_home'],
+    ]
+  }
+
+  # Configuration File. This is populated with data from Hiera and is
+  # subscribed to by each app, so that a change to the config will result in
+  # a restart of all the dependent services.
+  file { 'howalarming_config':
+    ensure  => file,
+    mode    => '0600',
+    path    => "${howalarming_dir}/config.yaml",
+    content => 'TODO: Populate me please',
+    require => Vcsrepo['howalarming_code'],
   }
 
 
@@ -58,7 +77,9 @@ class howalarming (
 
 
   # Beanstalk Messaging Queue. We need to setup a service for howalarming's
-  # instance of it.
+  # instance of it. It's very simular to the apps, but not 100% identical
+  # since it doesn't require the repo to be ready nor for there to be the config
+  # file in place.
 
   if ! defined(Package['beanstalk']) {
     package { $beanstalk_package:
@@ -86,6 +107,17 @@ class howalarming (
      Package[$beanstalk_package],
     ]
   }
+
+  # Finally we need to define each app that has been specified. We use a clever
+  # hack here where we pass the array to a Puppet defined resource type causing
+  # a form of iteration that works on both Puppet 3 and Puppet 4. In the future
+  # when everything is Puppet 4 and beautiful, we could move to an each iterator
+  # instead.
+  # 
+  # Refer to:
+  # https://docs.puppetlabs.com/puppet/latest/reference/lang_iteration.html
+
+  ::howalarming::app { $apps: }
 
 
 }

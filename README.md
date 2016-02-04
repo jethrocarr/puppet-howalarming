@@ -20,7 +20,7 @@ As HowAlarming is made up of multiple individual programs (mmm unix style) the
 exact set that you want to run will depend on your environment. Hence, you
 need to define the list when you invoke the class.
 
-    class { 'howalarming':
+    class { '::howalarming':
         apps => ['envisalinkd', 'alert_email']
     }
 

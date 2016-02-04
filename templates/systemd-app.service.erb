@@ -1,0 +1,16 @@
+# systemd unit file for howalarming-<%= @name %>
+# (generated via puppet-howalarming)
+#
+
+[Unit]
+Description=Howalarming Component <%= @name %>
+
+[Service]
+Type=simple
+WorkingDirectory=<%= @howalarming_dir -%>
+ExecStart=<%= @howalarming_dir -%>/<%= @name %>.py
+RestartSec=5
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
