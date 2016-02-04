@@ -19,6 +19,10 @@ class howalarming::params {
   # Port to run beanstalk on.
   $beanstalk_port = '11300'
 
+  # Full path of the beanstalk binary because someone decided that systemd
+  # shouldn't have the ability to lookup PATH :'(
+  $beanstalk_binary = '/usr/bin/beanstalkd'
+
   # We use the jethrocarr/initfact module to identify the init system for us
   $init_system = $::initsystem
 

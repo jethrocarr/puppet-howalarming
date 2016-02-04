@@ -21,7 +21,7 @@ exact set that you want to run will depend on your environment. Hence, you
 need to define the list when you invoke the class.
 
     class { 'howalarming':
-        apps => ['envisalinkd.py', 'alert_email.py']
+        apps => ['envisalinkd', 'alert_email']
     }
 
 The class will setup the beanstalk queue and each of the specified applications
@@ -90,6 +90,15 @@ Note that this module only supports the following initsystems currently:
 
 * systemd
 
+
+## Debugging
+
+If any of the howalarming apps are failing, have a look at their log output with:
+
+    journalctl -f -u howalarming-APPNAME
+
+Where `APPNAME` is either "beanstalk" (for the queue status) or any of the apps
+defined when you invoked the Puppet class.
 
 
 ## Contributions

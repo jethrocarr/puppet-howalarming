@@ -2,6 +2,7 @@
 class howalarming (
   $beanstalk_package = $howalarming::params::beanstalk_package,
   $beanstalk_port    = $howalarming::params::beanstalk_port,
+  $beanstalk_binary  = $howalarming::params::beanstalk_binary,
   $init_system       = $howalarming::params::init_system,
 ) inherits howalarming::params {
 

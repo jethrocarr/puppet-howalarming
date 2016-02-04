@@ -6,7 +6,7 @@ Description=Beanstalk queue for howalarming
 
 [Service]
 Type=simple
-ExecStart=beanstalkd -l 127.0.0.1 -p <%= @beanstalk_port -%>
+ExecStart=<%= @beanstalk_binary -%> -l 127.0.0.1 -p <%= @beanstalk_port %>
 RestartSec=5
 Restart=on-failure
 
