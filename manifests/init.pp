@@ -37,7 +37,7 @@ class howalarming (
     content  => template('howalarming/systemd-beanstalk.service.erb'),
     notify   => [
       Exec['howalarming_reload_systemd'],
-      Service['howalarming_beanstalk'],
+      Service['howalarming-beanstalk'],
     ]
   }
 
