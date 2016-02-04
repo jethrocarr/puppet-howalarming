@@ -29,7 +29,18 @@ class howalarming::params {
   if (!$init_system) {
     fail('Install the jethrocarr/initfact module to provide identification of the init system being used. Required to make this module work.')
   }
-    
+
+  # Where we install howalarming to (from github checkout)
+  $howalarming_dir = '/opt/howalarming'
+
+  # Where we get howalarming from (always master branch)
+  $howalarming_git = 'https://github.com/jethrocarr/howalarming.git'
+
+  # User to execute as
+  # TODO: should we be setting up our own user account?
+  $howalarming_user  = 'nobody'
+  $howalarming_group = 'nobody'
+
 }
 
 # vi:smartindent:tabstop=2:shiftwidth=2:expandtab:

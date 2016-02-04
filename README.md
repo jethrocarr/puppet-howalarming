@@ -1,22 +1,22 @@
 # puppet-howalarming
 
-Installs and configures the daemons behind howalarming including the init
+Installs and configures the daemons behind HowAlarming including the init
 configuration to ensure daemons launch & recover as required.
 
-To learn more about howalarming, refer to:
+To learn more about HowAlarming, refer to:
 https://github.com/jethrocarr/howalarming
 
 
 ## What it does
 
-* Installs the howalarming programs from the upstream git repository.
+* Installs the HowAlarming programs from the upstream git repository.
 * Installs init configuration (TODO: which ones?)
 * Configures howalarming and reloads services as required.
 
 
 ## Configuration
 
-As howalarming is made up of multiple individual programs (mmm unix style) the
+As HowAlarming is made up of multiple individual programs (mmm unix style) the
 exact set that you want to run will depend on your environment. Hence, you
 need to define the list when you invoke the class.
 
@@ -70,7 +70,10 @@ boilerplate. This module assumes you're smart enough to be able to structure
 some YAML data. :-)
 
 You don't need to define the beanstlakd configuration or the tubes that should
-be present, that is handled by the Puppet module for you.
+be present, that is handled by the Puppet module for you. Almost all the other
+defaults like app installation location, ports, git repo, etc should be left
+as-is, but if needed refer to `manifests/params.pp` for information on how to
+override the defaults.
 
 
 
@@ -93,7 +96,7 @@ Note that this module only supports the following initsystems currently:
 
 ## Debugging
 
-If any of the howalarming apps are failing, have a look at their log output with:
+If any of the HowAlarming apps are failing, have a look at their log output with:
 
     journalctl -f -u howalarming-APPNAME
 
