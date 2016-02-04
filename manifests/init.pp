@@ -3,7 +3,7 @@ class howalarming (
   $beanstalk_package = $howalarming::params::beanstalk_package,
   $beanstalk_port    = $howalarming::params::beanstalk_port,
   $init_system       = $howalarming::params::init_system,
-) {
+) inherits howalarming::params {
 
   # TODO: Currently we only support systemd - Use a recent distribution or
   # contribute a PR for supporting legacy systems.
