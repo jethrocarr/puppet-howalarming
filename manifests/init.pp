@@ -21,7 +21,7 @@ class howalarming (
     fail('howalarming module only support systemd')
   }
 
-  if ! validate_array($apps) {
+  if ! is_array($apps) {
     fail('You must specify which HowAlarming apps you want to run with howalarming::apps as an array without file extensions')
   }
 
