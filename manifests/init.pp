@@ -25,15 +25,21 @@ class howalarming (
     fail('You must specify which HowAlarming apps you want to run with howalarming::apps as an array without file extensions')
   }
 
+  # Install all the python dependencies. Note that we use "ensure_resource"
+  # rather than a standard package resource, since it ensures no clashes if
+  # defined multiple times.
+
+  ensure_resource('package', ['pyyaml', 'beanstalkc', 'python-gcm'], {
+    'ensure'   => 'installed',
+    'provider' => 'pip',                        # Ensure we always use upstream python packages (vs os packages)
+    'before'   => Vcsrepo['howalarming_code'],  # Make sure we have all deps before the apps can install/run
+  })
+
 
   # Download the source code for HowAlarming from Github and checkout into the
   # installation directory
 
-  if ! defined(Package['git']) {
-    package { 'git':
-      ensure => installed,
-    }
-  }
+  ensure_resource('package', ['git'], {'ensure' => 'installed'})
 
   file { 'howalarming_home':
     ensure => directory,
@@ -81,11 +87,7 @@ class howalarming (
   # since it doesn't require the repo to be ready nor for there to be the config
   # file in place.
 
-  if ! defined(Package['beanstalk']) {
-    package { $beanstalk_package:
-      ensure => installed,
-    }
-  }
+  ensure_resource('package', [$beanstalk_package], {'ensure' => 'installed'})
 
   file { 'init_howalarming_beanstalk':
     ensure   => file,
