@@ -3,16 +3,17 @@
 # if you wish to override any of the following parameters with Hiera.
 
 class howalarming (
-  $apps              = undef,
-  $app_config        = undef,
-  $beanstalk_package = $howalarming::params::beanstalk_package,
-  $beanstalk_port    = $howalarming::params::beanstalk_port,
-  $beanstalk_binary  = $howalarming::params::beanstalk_binary,
-  $init_system       = $howalarming::params::init_system,
-  $howalarming_dir   = $howalarming::params::howalarming_dir,
-  $howalarming_git   = $howalarming::params::howalarming_git,
-  $howalarming_user  = $howalarming::params::howalarming_user,
-  $howalarming_group = $howalarming::params::howalarming_group,
+  $apps               = undef,
+  $app_config         = undef,
+  $python_pip_package = $howalarming::params::python_pip_package,
+  $beanstalk_package  = $howalarming::params::beanstalk_package,
+  $beanstalk_port     = $howalarming::params::beanstalk_port,
+  $beanstalk_binary   = $howalarming::params::beanstalk_binary,
+  $init_system        = $howalarming::params::init_system,
+  $howalarming_dir    = $howalarming::params::howalarming_dir,
+  $howalarming_git    = $howalarming::params::howalarming_git,
+  $howalarming_user   = $howalarming::params::howalarming_user,
+  $howalarming_group  = $howalarming::params::howalarming_group,
 ) inherits ::howalarming::params {
 
   # TODO: Currently we only support systemd - Use a recent distribution or
@@ -34,10 +35,13 @@ class howalarming (
   # rather than a standard package resource, since it ensures no clashes if
   # defined multiple times.
 
+  ensure_resource('package', [$python_pip_package], {'ensure' => 'installed'})
+
   ensure_resource('package', ['pyyaml', 'beanstalkc', 'python-gcm'], {
     'ensure'   => 'installed',
     'provider' => 'pip',                        # Ensure we always use upstream python packages (vs os packages)
     'before'   => Vcsrepo['howalarming_code'],  # Make sure we have all deps before the apps can install/run
+    'require'  => Package[$python_pip_package],
   })
 
 

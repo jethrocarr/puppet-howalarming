@@ -11,6 +11,9 @@
 #
 
 class howalarming::params {
+  # TODO: Currently hardcoded, set as a param here for future proofing
+  # as it could vary across platforms.
+  $python_pip_package = 'python-pip'
 
   # TODO: Currently hardcoded, set as a param here for future proofing
   # as it could vary across platforms.
