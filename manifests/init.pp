@@ -31,6 +31,27 @@ class howalarming (
     fail('You must set the application configuration in Hiera')
   }
 
+
+  # Create a system user/group if it's set to "howalarming". This allows a user
+  # to override to use an existing account if desired.
+  if ($howalarming_group == "howalarming") {
+    group { 'howalarming':
+      ensure => present,
+      system => true,
+    }
+  }
+
+  if ($howalarming_user == "howalarming") {
+    user { 'howalarming':
+      ensure  => present,
+      gid     => $howalarming_group,
+      home    => $howalarming_dir,
+      system  => true,
+      shell   => '/sbin/nologin',
+      require => Group[$howalarming_group],
+    }
+  }
+
   # Install all the python dependencies. Note that we use "ensure_resource"
   # rather than a standard package resource, since it ensures no clashes if
   # defined multiple times.
@@ -77,6 +98,8 @@ class howalarming (
   file { 'howalarming_config':
     ensure  => file,
     mode    => '0600',
+    owner   => $howalarming_user,
+    group   => $howalarming_group,   
     path    => "${howalarming_dir}/config.yaml",
     content => template('howalarming/config.yaml.erb'),
     require => Vcsrepo['howalarming_code'],

@@ -39,10 +39,10 @@ class howalarming::params {
   # Where we get howalarming from (always master branch)
   $howalarming_git = 'https://github.com/jethrocarr/howalarming.git'
 
-  # User to execute as
-  # TODO: should we be setting up our own user account?
-  $howalarming_user  = 'nobody'
-  $howalarming_group = 'nobody'
+  # User to execute as. If set to "howalarming", the module will create
+  # the user account for us.
+  $howalarming_user  = 'howalarming'
+  $howalarming_group = 'howalarming'
 
 }
 
