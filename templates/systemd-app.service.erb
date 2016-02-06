@@ -7,7 +7,7 @@ Description=Howalarming Component <%= @name %>
 
 [Service]
 Type=simple
-WorkingDirectory=<%= @howalarming_dir -%>
+WorkingDirectory=<%= @howalarming_dir %>
 ExecStart=<%= @howalarming_dir -%>/<%= @name %>.py
 RestartSec=5
 Restart=on-failure
