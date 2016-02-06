@@ -10,6 +10,8 @@ Type=simple
 ExecStart=<%= @beanstalk_binary -%> -l 127.0.0.1 -p <%= @beanstalk_port %>
 RestartSec=5
 Restart=on-failure
+User=<%= @howalarming_user %>
+Group=<%= @howalarming_group %>
 
 [Install]
 WantedBy=multi-user.target
