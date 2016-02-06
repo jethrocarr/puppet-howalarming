@@ -78,7 +78,7 @@ class howalarming (
     ensure  => file,
     mode    => '0600',
     path    => "${howalarming_dir}/config.yaml",
-    content => template('templates/config.yaml.erb'),
+    content => template('howalarming/config.yaml.erb'),
     require => Vcsrepo['howalarming_code'],
   }
 
