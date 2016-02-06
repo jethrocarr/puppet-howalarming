@@ -12,7 +12,7 @@ beanstalkd:
     events:
 <% # Loop through each app and create a tube (queue/topic) for it -%>
 <% @apps.each do |app| -%>
-      - <%= @app %>
+      - <%= app %>
 <% end -%>
 
 <%-
