@@ -4,6 +4,7 @@
 
 class howalarming (
   $apps              = undef,
+  $app_config        = undef,
   $beanstalk_package = $howalarming::params::beanstalk_package,
   $beanstalk_port    = $howalarming::params::beanstalk_port,
   $beanstalk_binary  = $howalarming::params::beanstalk_binary,
@@ -23,6 +24,10 @@ class howalarming (
 
   if ! is_array($apps) {
     fail('You must specify which HowAlarming apps you want to run with howalarming::apps as an array without file extensions')
+  }
+
+  if ! is_hash($app_config) {
+    fail('You must set the application configuration in Hiera')
   }
 
   # Install all the python dependencies. Note that we use "ensure_resource"
@@ -61,14 +66,15 @@ class howalarming (
     ]
   }
 
-  # Configuration File. This is populated with data from Hiera and is
+  # Configuration File. This is populated with data from $app_config and is
   # subscribed to by each app, so that a change to the config will result in
   # a restart of all the dependent services.
+
   file { 'howalarming_config':
     ensure  => file,
     mode    => '0600',
     path    => "${howalarming_dir}/config.yaml",
-    content => 'TODO: Populate me please',
+    content => template('templates/config.yaml.erb'),
     require => Vcsrepo['howalarming_code'],
   }
 
