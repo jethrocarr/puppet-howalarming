@@ -10,7 +10,7 @@ https://github.com/jethrocarr/howalarming
 ## What it does
 
 * Installs the HowAlarming programs from the upstream git repository.
-* Installs init configuration (TODO: which ones?)
+* Installs init configuration (currently systemd only).
 * Configures howalarming and reloads services as required.
 
 
