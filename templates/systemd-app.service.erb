@@ -10,7 +10,7 @@ Type=simple
 WorkingDirectory=<%= @howalarming_dir %>
 ExecStart=<%= @howalarming_dir -%>/<%= @name %>.py
 RestartSec=5
-Restart=on-failure
+Restart=always
 User=<%= @howalarming_user %>
 Group=<%= @howalarming_group %>
 
