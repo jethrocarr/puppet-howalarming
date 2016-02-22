@@ -58,7 +58,7 @@ class howalarming (
 
   ensure_resource('package', [$python_pip_package], {'ensure' => 'installed'})
 
-  ensure_resource('package', ['pyyaml', 'beanstalkc', 'python-gcm'], {
+  ensure_resource('package', ['pyyaml', 'beanstalkc', 'python-gcm', 'plivo'], {
     'ensure'   => 'installed',
     'provider' => 'pip',                        # Ensure we always use upstream python packages (vs os packages)
     'before'   => Vcsrepo['howalarming_code'],  # Make sure we have all deps before the apps can install/run
