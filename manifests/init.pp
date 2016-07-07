@@ -67,7 +67,7 @@ class howalarming (
 
 
   # The GCM service requires Java 7+
-  ensure_resource('package', ['java'], {'ensure' => 'installed'})
+  ensure_resource('package', ['java'], {'ensure' => 'installed', 'name' => 'java-1.8.0-openjdk'})
 
 
   # Download the source code for HowAlarming from Github and checkout into the
