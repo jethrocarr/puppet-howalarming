@@ -71,7 +71,7 @@ every possible option as a parameter, but make for massive amounts of
 boilerplate. This module assumes you're smart enough to be able to structure
 some YAML data. :-)
 
-You don't need to define the beanstlakd configuration or the tubes that should
+You don't need to define the beanstalkd configuration or the tubes that should
 be present, that is handled by the Puppet module for you. Almost all the other
 defaults like app installation location, ports, git repo, etc should be left
 as-is, but if needed refer to `manifests/params.pp` for information on how to
