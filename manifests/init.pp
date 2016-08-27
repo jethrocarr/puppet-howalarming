@@ -52,14 +52,14 @@ class howalarming (
     }
   }
 
-  # Install all the python dependencies. Note that we use "ensure_resource"
+  # Install all the python dependencies. Note that we use "ensure_packages"
   # rather than a standard package resource, since it ensures no clashes if
-  # defined multiple times.
+  # defined multiple times via ensure_packages (from stdlib)
 
-  ensure_resource('package', [$python_pip_package], {'ensure' => 'installed'})
+  ensure_packages([$python_pip_package])
 
-  ensure_resource('package', ['pyyaml', 'beanstalkc', 'plivo'], {
-    'ensure'   => 'installed',
+  ensure_packages(['pyyaml', 'beanstalkc', 'plivo'], {
+    'ensure'   => 'present',
     'provider' => 'pip',                        # Ensure we always use upstream python packages (vs os packages)
     'before'   => Vcsrepo['howalarming_code'],  # Make sure we have all deps before the apps can install/run
     'require'  => Package[$python_pip_package],
@@ -67,13 +67,13 @@ class howalarming (
 
 
   # The GCM service requires Java 7+
-  ensure_resource('package', ['java'], {'ensure' => 'installed', 'name' => 'java-1.8.0-openjdk'})
+  ensure_packages(['java'], {'ensure' => 'present', 'name' => 'java-1.8.0-openjdk'})
 
 
   # Download the source code for HowAlarming from Github and checkout into the
   # installation directory
 
-  ensure_resource('package', ['git'], {'ensure' => 'installed'})
+  ensure_packages(['git'])
 
   file { 'howalarming_home':
     ensure => directory,
@@ -125,7 +125,7 @@ class howalarming (
   # since it doesn't require the repo to be ready nor for there to be the config
   # file in place.
 
-  ensure_resource('package', [$beanstalk_package], {'ensure' => 'installed'})
+  ensure_packages([$beanstalk_package])
 
   file { 'init_howalarming_beanstalk':
     ensure   => file,
