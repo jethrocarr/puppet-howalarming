@@ -1,7 +1,11 @@
 # This defined resource type sets up a specifc application. It is invoked by
 # the parent class.
 
-define howalarming::app {
+define howalarming::app (
+  $howalarming_dir    = $howalarming::howalarming_dir,
+  $howalarming_user   = $howalarming::howalarming_user,
+  $howalarming_group  = $howalarming::howalarming_group
+  ) {
 
   file { "init_howalarming_${name}":
     ensure   => file,
